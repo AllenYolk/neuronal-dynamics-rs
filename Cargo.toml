@@ -1,0 +1,8 @@
+[package]
+name = "neuronal_dynamics_rs"
+version = "0.1.0"
+edition = "2021"
+authors = ["AllenYolk <allen.yfhuang@gmail.com>"]
+
+[dependencies]
+clap = { version = "4.3.14", features = ["derive"] }
