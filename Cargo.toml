@@ -6,3 +6,4 @@ authors = ["AllenYolk <allen.yfhuang@gmail.com>"]
 
 [dependencies]
 clap = { version = "4.3.14", features = ["derive"] }
+ode_solvers = "0.3.7"
