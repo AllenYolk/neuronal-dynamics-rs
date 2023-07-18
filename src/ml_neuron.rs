@@ -38,6 +38,7 @@ pub enum MLNeuronSubtype {
 pub type MLNeuronState = SVector<f64, 2>;
 type Time = f64;
 
+#[derive(Debug, Clone, Copy)]
 pub struct MLNeuron {
     c_m: f64,
     g_l: f64,
