@@ -1,0 +1,16 @@
+subtype=Hopf, i_inj=88, v_init=-15, n_init=0, t_max=500
+MLNeuron {
+    c_m: 20.0,
+    g_l: 2.0,
+    e_l: -60.0,
+    g_k: 8.0,
+    e_k: -84.0,
+    g_ca: 4.4,
+    e_ca: 120.0,
+    phi: 0.04,
+    v1: -1.2,
+    v2: 18.0,
+    v3: 2.0,
+    v4: 30.0,
+    i_inj: 88.0,
+}
