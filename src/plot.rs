@@ -1,6 +1,8 @@
 use std::path::Path;
 use plotters::prelude::*;
 
+const COLORS: [&RGBColor; 6] = [&RED, &GREEN, &BLUE, &CYAN, &MAGENTA, &YELLOW];
+
 pub fn plot_membrane_potential(
     fig_path: &Path, v: &Vec<f64>, t: &Vec<f64>
 ) -> Result<(), Box<dyn std::error::Error>> {
@@ -36,6 +38,45 @@ pub fn plot_membrane_potential(
 
     root.present()?;
 
+    Ok(())
+}
+
+pub fn plot_gating_variables(
+    fig_path: &Path, vars: &Vec<Vec<f64>>, var_names: &Vec<String>, t: &Vec<f64>
+) -> Result<(), Box<dyn std::error::Error>> {
+    let t_min = t.iter().fold(f64::INFINITY, |a, &b| a.min(b));
+    let t_max = t.iter().fold(f64::NEG_INFINITY, |a, &b| a.max(b));
+
+    let root = BitMapBackend::new(fig_path, (640, 480)).into_drawing_area();
+    root.fill(&WHITE)?;
+
+    let mut chart = ChartBuilder::on(&root)
+        .caption("Gating Variables", ("sans-serif", 30))
+        .margin(5)
+        .x_label_area_size(40)
+        .y_label_area_size(40)
+        .build_cartesian_2d((t_min-1.)..(t_max+1.), (-0.1)..1.1)?;
+
+    chart.configure_mesh().x_desc("time (ms)").y_desc("gating value").draw()?;
+
+    for (i, var) in vars.iter().enumerate() {
+        let c = COLORS[i % COLORS.len()];
+        chart
+            .draw_series(LineSeries::new(
+                t.iter().zip(var.iter()).map(|(x, y)| (*x, *y)),
+                c,
+            ))?
+            .label(&var_names[i])
+            .legend(|(x, y)| PathElement::new(vec![(x, y), (x + 20, y)], c.clone()));
+    }
+    chart
+        .configure_series_labels()
+        .background_style(&WHITE.mix(0.8))
+        .border_style(&BLACK)
+        .draw()?;
+
+    root.present()?;
+    
     Ok(())
 }
 
@@ -90,6 +131,15 @@ mod tests {
         let v = vec![-1., 4., -9., 16., -25.];
         let t = vec![1., 2., 3., 4., 5.];
         plot_membrane_potential(fig_path, &v, &t).unwrap();
+    }
+
+    #[test]
+    fn test_plot_gating_variables() {
+        let fig_path = Path::new("test.png");
+        let vars = vec![vec![0.1, 0.4, 0.9, 0.16, 0.25], vec![0.1, 0.2, 0.3, 0.4, 0.5]];
+        let var_names = vec!["m".to_string(), "h".to_string()];
+        let t = vec![1., 2., 3., 4., 5.];
+        plot_gating_variables(fig_path, &vars, &var_names, &t).unwrap();
     }
 
     #[test]

@@ -21,4 +21,5 @@ This crate currently supports the simulation of the following models:
 Furthermore, the following visualization methods are provided:
 
 * **Membrane potential -- time**
+* **Gating Variables -- time**
 * **Phase plane trajectory**
