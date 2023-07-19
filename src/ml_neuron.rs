@@ -1,5 +1,3 @@
-#![allow(dead_code)]
-
 use crate::utils::*;
 use ode_solvers::*;
 use clap::{ValueEnum, Args};
@@ -10,18 +8,18 @@ pub struct MLNeuronSubcommand {
     pub subtype: MLNeuronSubtype,
 
     #[arg(default_value_t = 0.0)]
-    #[arg(short, long)]
+    #[arg(short='I', long)]
     pub i_inj: f64,
 
     #[arg(default_value_t = -60.0)]
-    #[arg(short, long)]
+    #[arg(short='V', long)]
     pub v_init: f64,
 
     #[arg(default_value_t = 0.0)]
-    #[arg(short, long)]
+    #[arg(short='N', long)]
     pub n_init: f64,
 
-    #[arg(default_value_t = 100.0)]
+    #[arg(default_value_t = 500.0)]
     #[arg(short, long)]
     pub t_max: f64,
 }
